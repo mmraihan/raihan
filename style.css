@@ -130,7 +130,7 @@ body {
 }
 
 .skills-icon:hover {
-  background: #950740;
+  background: yellow;
 }
 
 
@@ -141,7 +141,7 @@ body {
 }
 
 .skills-icon:hover span {
-  color:#950740,
+  color: black;
 }
 
 /* About */
@@ -181,7 +181,7 @@ body {
 }
 
 #projects button:hover {
-  background:#950740;
+  background:yellow;
 }
 
 .img-container {
@@ -206,7 +206,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 4rem;
-  color: #950740;
+  color: yellow;
   transition: margin 2s ease-in-out, color 0.5s ease-in-out, opacity 0.75s ease-in-out;
   margin-top: -50%;
   opacity: 0;
@@ -224,7 +224,7 @@ body {
 
 
 .inner-form{
-  background-color:black;
+  background-color:rgb(233, 234, 255);
 }
 
 
@@ -248,7 +248,7 @@ body {
 
 .value-number {
   padding: 15px;
-  background: #950740;
+  background:yellow;
   position: absolute;
   border-radius: 50%;
   display: inline-block;
@@ -260,12 +260,12 @@ body {
 }
 
 .value:hover .value-icon {
-  background: #950740;
+  background: yellow;
   transform: scale(1.2);
 }
 
 .value:hover .value-number {
-  background:aqua);
+  background:aqua;
   color: white;
   transform: scale(0.9);
 }
@@ -300,13 +300,13 @@ body {
 }
 
 #contact .input-group-text {
-  background:rgb(10, 10, 26);
+  background:rgb(14, 14, 15);
   border-color: aqua;
   color: aqua
 }
 
 #contact .card input {
-  color: #606060;
+  color: #0c0a0a;
 }
 
 #contact .card input::placeholder {
@@ -332,14 +332,14 @@ footer {
 }
 
 .footer-icons a {
-  color:aqua;
+  color: yellow;
   font-size: 30px;
   transition: color 1s ease;
 
 }
 
 .footer-icons a:hover {
-  color: #950740
+  color: aqua;
 }
 
 footer h5 {
