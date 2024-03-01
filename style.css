@@ -12,12 +12,12 @@ body {
 
 .navbar {
   background: rgb(8, 1, 20);
-  padding: 10px 20px!important;
+  padding: 10px 20px !important;
   transition: padding 2s ease;
 }
 
 .navbar-background {
-  padding: 2px 20px!important
+  padding: 2px 20px !important
 }
 
 
@@ -27,6 +27,7 @@ body {
   padding: 3px;
 
 }
+
 
 .bar1,
 .bar2,
@@ -50,21 +51,17 @@ body {
   transform: rotate(45deg) translate(-5px, -8px);
 }
 
-
-
-
 .nav-link {
   color: #f1fffa;
   font-size: 15px;
-  padding: 10px 20px!important;
+  padding: 10px 20px !important;
   border-radius: 5px;
-  transition: background 2s ease;
+  /* transition: background 2s ease; */
 }
 
 .nav-link:hover {
-  background:aqua;
-  color: #f1fffa;
-
+  background: rgb(4, 197, 197);
+  color: #0f0329;
 }
 
 /*Banner */
@@ -73,7 +70,7 @@ body {
 .item-2,
 .item-3 {
   min-height: 90vh;
-  clip-path:polygon(0);
+  clip-path: polygon(0);
 
 }
 
@@ -83,7 +80,7 @@ body {
 }
 
 .item-2 {
-  background: linear-gradient(to right, transparent,transparent), url(img/banner-2.jpeg)center/cover fixed no-repeat;
+  background: linear-gradient(to right, transparent, transparent), url(img/banner-2.jpeg)center/cover fixed no-repeat;
 }
 
 .item-3 {
@@ -103,30 +100,31 @@ body {
 .title-underline {
   height: 5px;
   width: 250px;
-  background: aqua;
+  background: rgb(4, 197, 197);
   margin: -28px auto 0 auto;
 }
 
 .title a {
-  color: aqua;
+  color: rgb(4, 197, 197);
   font-size: 30px;
   padding: 0px 10px;
   display: inline-block;
-  background: white;
+  background: rgb(8, 1, 20);
 
 }
 
 /* Skills */
 
 .skills-icon {
-  background:rgb(9, 70, 70);
+  background: rgb(9, 70, 70);
   clip-path: polygon(0 0, 50% 0, 100% 100%, 0 100%);
   transition: all 1s ease;
 
 }
-.hi{
+
+.hi {
   background: rgb(10, 6, 17);
-  
+
 }
 
 .skills-icon:hover {
@@ -153,8 +151,7 @@ body {
 
 #about {
   min-height: 40vh;
-  background:black
-
+  background: black
 }
 
 
@@ -168,7 +165,7 @@ body {
 
 
 .progress-bar {
-  background:rgb(9, 70, 70);
+  background: rgb(9, 70, 70);
 
 }
 
@@ -177,11 +174,11 @@ body {
 #projects button {
   background: rgb(9, 70, 70);
   color: white;
-  transition: all 1s ease-in-out;
 }
 
 #projects button:hover {
-  background:yellow;
+  background: rgb(4, 197, 197);
+  color: black;
 }
 
 .img-container {
@@ -223,8 +220,8 @@ body {
 }
 
 
-.inner-form{
-  background-color:rgb(233, 234, 255);
+.inner-form {
+  background-color: rgb(233, 234, 255);
 }
 
 
@@ -237,7 +234,7 @@ body {
 .value-icon {
   font-size: 20px;
   color: black;
-  background:aqua;
+  background: rgb(19, 182, 182);
   padding: 25px 35px;
   border-radius: 50%;
   display: inline-block;
@@ -248,7 +245,7 @@ body {
 
 .value-number {
   padding: 15px;
-  background:yellow;
+  background: rgba(220, 220, 35, 0.784);
   position: absolute;
   border-radius: 50%;
   display: inline-block;
@@ -256,21 +253,21 @@ body {
   top: -12%;
   left: 57%;
   transition: all 2s ease;
-  color: white;
+  color: black;
 }
 
 .value:hover .value-icon {
-  background: yellow;
+  background: rgba(220, 220, 35, 0.784);
   transform: scale(1.2);
 }
 
 .value:hover .value-number {
-  background:aqua;
-  color: white;
+  background: aqua;
+  color: black;
   transform: scale(0.9);
 }
 
-.value{
+.value {
   background-color: rgb(10, 6, 17);
 }
 
@@ -282,7 +279,7 @@ body {
 }
 
 #contact {
-  background:black;
+  background: black;
 }
 
 
@@ -300,7 +297,7 @@ body {
 }
 
 #contact .input-group-text {
-  background:rgb(14, 14, 15);
+  background: rgb(14, 14, 15);
   border-color: aqua;
   color: aqua
 }
@@ -314,8 +311,8 @@ body {
 }
 
 .contact-btn {
-  color:aqua;
-  background:black;
+  color: aqua;
+  background: black;
   transition: all 2s ease-in-out;
 }
 
@@ -332,14 +329,14 @@ footer {
 }
 
 .footer-icons a {
-  color: yellow;
+  color: aqua;
   font-size: 30px;
   transition: color 1s ease;
 
 }
 
 .footer-icons a:hover {
-  color: aqua;
+  color: yellow;
 }
 
 footer h5 {
@@ -347,30 +344,115 @@ footer h5 {
   font-size: 12px;
 
 }
- #align{
-   text-align: justify;
- }
-.font{
- color: aqua;
-}
 
-.front2{
-  color:rgb(134, 226, 198) ;
-}
-.front3{
-  color: aqua ;
-}
-.front4{
-  color: aqua ;
-}
-.front4{
-  color: aqua ;
-}
-.front5{
-  color: aqua;;
-}
-#align{
+#align {
   text-align: justify;
 }
-.iconify { width: 95px; height: 95px; }
-.iconify { color: rgb(255, 255, 255); }
+
+.font {
+  color: aqua;
+}
+
+.front2 {
+  color: rgb(134, 226, 198);
+}
+
+.front3 {
+  color: aqua;
+}
+
+.front4 {
+  color: aqua;
+}
+
+.front4 {
+  color: aqua;
+}
+
+.front5 {
+  color: aqua;
+  ;
+}
+
+#align {
+  text-align: justify;
+}
+
+.iconify {
+  width: 95px;
+  height: 95px;
+}
+
+.iconify {
+  color: rgb(255, 255, 255);
+}
+
+
+/* ----------------Additional Code------------ */
+
+contact .info-box {
+  color: white;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(214, 215, 216, 0.6);
+  padding: 20px 0 30px 0;
+}
+
+.contact .info-box i.bx {
+  font-size: 24px;
+  color: #ffb727;
+  border-radius: 50%;
+  padding: 15px;
+  background: white;
+}
+
+.contact .info-box h3 {
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.contact .info-box p {
+  padding: 0;
+  line-height: 24px;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.contact .social-links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.contact .social-links a {
+  font-size: 18px;
+  display: inline-block;
+  color: white;
+  line-height: 1;
+  margin: 0 8px;
+  transition: 0.3s;
+  padding: 14px;
+  border-radius: 50px;
+  border: 1px solid #dde1e4;
+}
+
+.contact .social-links a:hover {
+  color: #fff;
+  border-color: #ffb727;
+  background: #ffb727;
+}
+
+@keyframes animate-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.btn-outline-info:hover {
+  color: black;
+}
