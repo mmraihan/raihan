@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import Image from 'next/image'
+import { assetPath } from '@/utils/assetPath'
 import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '../context/ThemeContext'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -33,7 +34,7 @@ export default function Navbar() {
               transition={{ duration: 0.3 }}
             >
               <Image 
-                src="/logo-cursive.svg" 
+                src={assetPath("/logo-cursive.svg")} 
                 alt="Raihan Logo" 
                 width={32}
                 height={32}

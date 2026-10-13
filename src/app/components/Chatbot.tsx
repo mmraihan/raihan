@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { assetPath } from '@/utils/assetPath'
 import { ChatBubbleLeftRightIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 interface Message {
@@ -41,8 +42,8 @@ export default function Chatbot() {
   useEffect(() => {
     // Try WAV first (locally generated), then MP3 fallback if present
     const candidates = [
-      { src: '/sounds/assistant-open.wav', type: 'audio/wav' },
-      { src: '/sounds/assistant-open.mp3', type: 'audio/mpeg' }
+      { src: assetPath('/sounds/assistant-open.wav'), type: 'audio/wav' },
+      { src: assetPath('/sounds/assistant-open.mp3'), type: 'audio/mpeg' }
     ] as const
 
     const audio = new Audio()

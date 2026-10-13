@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { assetPath } from '@/utils/assetPath'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   FaCode,
@@ -90,7 +91,7 @@ export default function InteractiveResume() {
                       <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 p-1">
                         <div className="w-full h-full rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
                           <Image 
-                            src="/profile-6.png" 
+                            src={assetPath("/profile-6.png")} 
                             alt="MD. Mubasshir Raihan" 
                             width={128}
                             height={128}

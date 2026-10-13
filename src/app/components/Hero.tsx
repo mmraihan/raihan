@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { assetPath } from '@/utils/assetPath'
 import { FaGithub, FaLinkedin, FaTwitter, FaMedium } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { fadeInUp, scaleIn, bounceIn } from '@/utils/animations';
@@ -27,7 +28,7 @@ export default function Hero() {
             transition={{ delay: 0.2 }}
           >
             <Image
-              src="/profile-6.png"
+              src={assetPath("/profile-6.png")}
               alt="Md. Mubasshir Raihan Profile"
               width={256}
               height={256}

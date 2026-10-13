@@ -1,4 +1,5 @@
 import { Project } from "@/types";
+import { assetPath } from "@/utils/assetPath";
 
 
 export const projects: Project[] = [
@@ -8,7 +9,7 @@ export const projects: Project[] = [
         technologies: ['.NET 8', 'ASP.NET Web API', 'Docker', 'RabbitMQ', 'MassTransit', 'gRPC', 'YARP Gateway', 'Redis', 'SQL Server', 'Microservices'],
         githubLink: 'https://github.com/mmraihan/Walmart-Microservices',
         demoLink: '',
-        image: '/projects/e-commerce-website.png',
+        image: assetPath('/projects/e-commerce-website.png'),
       },
       {
         title: 'Shopping-Mart E-commerce Application',
@@ -16,7 +17,7 @@ export const projects: Project[] = [
         technologies: ['.NET 7.0', 'ASP.NET Core Web API', 'Angular', 'TypeScript', 'C#', 'RESTful API', 'Frontend', 'Backend'],
         githubLink: 'https://github.com/mmraihan/Shopping-Mart',
         demoLink: '',
-        image: '/projects/task-manager.webp',
+        image: assetPath('/projects/task-manager.webp'),
       },
       {
         title: 'Bulky-Book E-commerce Application',
@@ -24,7 +25,7 @@ export const projects: Project[] = [
         technologies: ['ASP.NET Core 3.1', 'MVC', 'C#', 'jQuery', 'HTML', 'CSS', 'JavaScript', 'Entity Framework'],
         githubLink: 'https://github.com/mmraihan/Bulky-Book',
         demoLink: '',
-        image: '/projects/Book_store.png',
+        image: assetPath('/projects/Book_store.png'),
       },
       {
         title: 'Blog Platform',
@@ -32,7 +33,7 @@ export const projects: Project[] = [
         technologies: ['.NET Core 6', 'Angular'],
         githubLink: '',
         demoLink: '',
-        image: '/projects/blog-website.jpeg',
+        image: assetPath('/projects/blog-website.jpeg'),
       },
       {
         title: 'Weather App',
@@ -40,7 +41,7 @@ export const projects: Project[] = [
         technologies: ['.NET Core 6', 'Angular'],
         githubLink: '',
         demoLink: '',
-        image: '/projects/weather-app.png',
+        image: assetPath('/projects/weather-app.png'),
       },
       {
         title: 'Chat Application',
@@ -48,7 +49,7 @@ export const projects: Project[] = [
         technologies: ['.NET Core 6', 'Angular'],
         githubLink: '',
         demoLink: '',
-        image: '/projects/chat-app.png',
+        image: assetPath('/projects/chat-app.png'),
       },
       {
         title: 'Recipe Finder',
@@ -56,7 +57,7 @@ export const projects: Project[] = [
         technologies: ['.NET Core 6', 'Angular'],
         githubLink: '',
         demoLink: '',
-        image: '/projects/recipe-finder.png',
+        image: assetPath('/projects/recipe-finder.png'),
       },
       {
         title: 'Expense Tracker',
@@ -64,6 +65,6 @@ export const projects: Project[] = [
         technologies: ['.NET Core 6', 'Angular'],
         githubLink: '',
         demoLink: '',
-        image: '/projects/expense-tracker.webp',
+        image: assetPath('/projects/expense-tracker.webp'),
       }
   ];

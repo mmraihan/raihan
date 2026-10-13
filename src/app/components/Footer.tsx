@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { assetPath } from '@/utils/assetPath'
 import { FaGithub, FaTwitter, FaLinkedin, FaMedium } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 
@@ -19,7 +20,7 @@ export default function Footer() {
                 transition={{ duration: 0.3 }}
               >
                 <Image 
-                  src="/logo-cursive.svg" 
+                  src={assetPath("/logo-cursive.svg")} 
                   alt="Raihan Logo" 
                   width={40}
                   height={40}

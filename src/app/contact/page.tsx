@@ -36,6 +36,12 @@ export default function Contact() {
     }
   }, [])
 
+  const openMailClient = () => {
+    const subject = encodeURIComponent(`Portfolio contact from ${formData.name}`)
+    const body = encodeURIComponent(`${formData.message}\n\nFrom: ${formData.name} <${formData.email}>`)
+    window.location.href = `mailto:mub.raihan7@gmail.com?subject=${subject}&body=${body}`
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormState({ status: 'loading' })
@@ -69,37 +75,14 @@ export default function Contact() {
         } catch (emailjsError) {
           console.error('EmailJS specific error:', emailjsError)
           console.error('Error details:', JSON.stringify(emailjsError, null, 2))
-          
-          // If EmailJS fails, try the API route as fallback
-          console.log('EmailJS failed, falling back to API route...')
-          const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-          })
 
-          if (!response.ok) {
-            throw new Error('Both EmailJS and API route failed')
-          }
-          
-          console.log('API route succeeded as fallback')
+          // Static hosting (GitHub Pages) has no API route, so fall back to the mail client
+          openMailClient()
         }
       } else {
-        // Fallback to API route
-        console.log('EmailJS not configured, using API route...')
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to send message via API')
-        }
+        // EmailJS not configured: fall back to the visitor's mail client
+        console.log('EmailJS not configured, opening mail client...')
+        openMailClient()
       }
       
       setFormState({ status: 'success', message: 'Message sent successfully!' })
