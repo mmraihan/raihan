@@ -1,0 +1,17 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Cursive Text Only -->
+  <text x="60" y="28" 
+        font-family="Brush Script MT, cursive" 
+        font-size="28" 
+        font-weight="normal" 
+        fill="#14b8a6"
+        text-anchor="middle"
+        filter="url(#textShadow)">Raihan</text>
+</svg>
+
