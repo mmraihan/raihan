@@ -220,8 +220,10 @@ export default function Chatbot() {
   }, [messages])
 
 
-  // Auto-open after 3 seconds with sound (every page load)
+  // Auto-open after 3 seconds with sound (every page load) — desktop only;
+  // on phones the window covers most of the screen, so wait for a tap
   useEffect(() => {
+    if (!window.matchMedia('(min-width: 768px)').matches) return
     if (!hasAutoOpened && !isManualOpen) {
       const timer = setTimeout(() => {
         // Always play sound when assistant auto-opens
@@ -465,11 +467,30 @@ export default function Chatbot() {
     }
   }
 
+  const closeChat = () => {
+    setIsOpen(false)
+    // Ensure no sound plays on close
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
+  }
+
+  // Close on Escape
+  useEffect(() => {
+    if (!isOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeChat()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  })
+
   return (
     <>
-
       {/* Chatbot Toggle Button */}
       <motion.button
+        type="button"
         onClick={() => {
           const willOpen = !isOpen
           setIsOpen(willOpen)
@@ -481,90 +502,91 @@ export default function Chatbot() {
             playOpenSound(false)
           }
         }}
-        className="fixed bottom-6 right-6 z-50 bg-primary text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        aria-label={isOpen ? 'Close AI assistant' : 'Open AI assistant'}
+        aria-expanded={isOpen}
+        aria-controls="chatbot-window"
+        className="glow-primary fixed bottom-4 right-4 z-40 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-on-primary shadow-lg transition-[background-color,box-shadow] duration-300 hover:bg-primary-hover hover:shadow-[var(--shadow-btn-hover)] sm:bottom-6 sm:right-6"
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.95 }}
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <ChatBubbleLeftRightIcon className="h-6 w-6" />
+        {isOpen ? <XMarkIcon className="h-6 w-6" aria-hidden="true" /> : <ChatBubbleLeftRightIcon className="h-6 w-6" aria-hidden="true" />}
       </motion.button>
-
 
       {/* Chatbot Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            id="chatbot-window"
+            role="dialog"
+            aria-label="AI Assistant"
+            initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-6 z-50 w-80 h-96 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col"
+            exit={{ opacity: 0, y: 16, scale: 0.97 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-22 right-4 z-40 flex h-[min(28rem,calc(100dvh-9rem))] w-[calc(100vw-2rem)] max-w-sm flex-col overflow-hidden rounded-[20px] border border-border bg-surface/95 shadow-2xl backdrop-blur-[20px] sm:right-6"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-bold">MR</span>
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary">
+                  <span className="text-sm font-bold text-on-primary">MR</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-primary text-lg">
-                    AI Assistant
-                  </h3>
-                  <p className="text-xs text-green-500 dark:text-green-400 font-medium">✨ Online</p>
+                  <h2 className="text-base font-bold leading-tight">AI Assistant</h2>
+                  <p className="flex items-center gap-1.5 text-xs font-medium text-success">
+                    <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden="true" />
+                    Online
+                  </p>
                 </div>
               </div>
               <button
-                onClick={() => {
-                  setIsOpen(false)
-                  // Ensure no sound plays on close
-                  if (audioRef.current) {
-                    audioRef.current.pause()
-                    audioRef.current.currentTime = 0
-                  }
-                }}
-                className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                type="button"
+                onClick={closeChat}
+                aria-label="Close AI assistant"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-muted transition-colors hover:bg-glass hover:text-fg"
               >
-                <XMarkIcon className="h-5 w-5 text-gray-500" />
+                <XMarkIcon className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-xs px-4 py-2 rounded-2xl ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 ${
                       message.isUser
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
+                        ? 'rounded-br-md bg-primary text-on-primary'
+                        : 'rounded-bl-md border border-border bg-glass text-fg'
                     }`}
                   >
-                    <p className="text-sm">{message.text}</p>
-                    <p className="text-xs opacity-70 mt-1">
+                    <p className="text-sm leading-relaxed">{message.text}</p>
+                    <p className="mt-1 font-mono text-[10px] opacity-70">
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
                 </motion.div>
               ))}
-              
+
               {isTyping && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-2xl">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="rounded-2xl rounded-bl-md border border-border bg-glass px-4 py-3" aria-label="Assistant is typing">
+                    <div className="flex gap-1">
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-primary/70"></div>
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-primary/70" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-primary/70" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </motion.div>
@@ -573,22 +595,28 @@ export default function Chatbot() {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center space-x-2">
+            <div className="border-t border-border p-3">
+              <div className="flex items-center gap-2">
+                <label htmlFor="chatbot-input" className="sr-only">
+                  Ask about Raihan
+                </label>
                 <input
+                  id="chatbot-input"
                   type="text"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyPress}
                   placeholder="Ask about Raihan..."
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white"
+                  className="input min-w-0 flex-1 !rounded-xl !py-2.5"
                 />
                 <button
+                  type="button"
                   onClick={handleSendMessage}
                   disabled={!inputText.trim()}
-                  className="p-2 bg-primary text-white rounded-full hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Send message"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary text-on-primary transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <PaperAirplaneIcon className="h-4 w-4" />
+                  <PaperAirplaneIcon className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
             </div>

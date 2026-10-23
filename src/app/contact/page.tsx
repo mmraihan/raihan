@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { FaEnvelope, FaMapMarkerAlt, FaMedium, FaDiscord } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import { fadeInUp, fadeIn, slideInLeft, slideInRight } from '@/utils/animations'
 import emailjs from '@emailjs/browser'
 
 interface FormData {
@@ -101,149 +100,116 @@ export default function Contact() {
     }))
   }
 
+  const contactItems = [
+    { icon: FaEnvelope, title: 'Email', label: 'mub.raihan7@gmail.com', href: 'mailto:mub.raihan7@gmail.com', external: false },
+    { icon: FaDiscord, title: 'Discord', label: 'mmraihan', href: 'https://discord.com/users/mmraihan', external: true },
+    { icon: FaMedium, title: 'Medium', label: '@mub.raihan7', href: 'https://medium.com/@mub.raihan7', external: true },
+    { icon: FaMapMarkerAlt, title: 'Location', label: 'Chittagong, Bangladesh', href: undefined, external: false },
+  ]
+
   return (
-    <div className="container max-w-7xl mx-auto py-8 sm:py-12 px-3 sm:px-4 md:px-6 lg:px-8">
-      <motion.h1
-        className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center"
-        {...fadeInUp}
+    <div className="container py-16 sm:py-20">
+      <motion.header
+        className="mb-12 text-center"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
-        Contact Me
-      </motion.h1>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
+        <span className="badge-primary font-mono text-xs uppercase tracking-[0.12em]">Say hello</span>
+        <h1 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+          Contact Me
+        </h1>
+      </motion.header>
+
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
         {/* Contact Information */}
-        <motion.div 
-          className="space-y-6 sm:space-y-8"
-          {...slideInLeft}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <motion.div {...fadeInUp}>
-            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4">Get in Touch</h2>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-              I&apos;m always open to discussing new projects, creative ideas, or
-              opportunities to be part of your visions.
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            className="space-y-3 sm:space-y-4"
-            variants={fadeIn}
-            initial="initial"
-            animate="animate"
-          >
-            <motion.div 
-              className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-              variants={fadeInUp}
-              whileHover={{ x: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaEnvelope className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 mt-0.5" />
-              <div className="min-w-0">
-                <h3 className="font-semibold text-sm sm:text-base">Email</h3>
-                <a href="mailto:mub.raihan7@gmail.com" className="text-gray-600 dark:text-gray-300 hover:text-primary text-sm sm:text-base break-all">
-                  mub.raihan7@gmail.com
-                </a>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-              variants={fadeInUp}
-              whileHover={{ x: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaDiscord className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 mt-0.5" />
-              <div className="min-w-0">
-                <h3 className="font-semibold text-sm sm:text-base">Discord</h3>
-                <a 
-                  href="https://discord.com/users/mmraihan" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 dark:text-gray-300 hover:text-primary text-sm sm:text-base break-all"
-                >
-                  mmraihan
-                </a>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-              variants={fadeInUp}
-              whileHover={{ x: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaMedium className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 mt-0.5" />
-              <div className="min-w-0">
-                <h3 className="font-semibold text-sm sm:text-base">Medium</h3>
-                <a 
-                  href="https://medium.com/@mub.raihan7" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 dark:text-gray-300 hover:text-primary text-sm sm:text-base break-all"
-                >
-                  @mub.raihan7
-                </a>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-              variants={fadeInUp}
-              whileHover={{ x: 5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <FaMapMarkerAlt className="h-5 w-5 sm:h-6 sm:w-6 text-primary flex-shrink-0 mt-0.5" />
-              <div className="min-w-0">
-                <h3 className="font-semibold text-sm sm:text-base">Location</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">Chittagong, Bangladesh</p>
-              </div>
-            </motion.div>
-          </motion.div>
+          <h2 className="text-2xl font-bold">Get in Touch</h2>
+          <p className="mt-3 max-w-prose leading-relaxed text-muted">
+            I&apos;m always open to discussing new projects, creative ideas, or
+            opportunities to be part of your visions.
+          </p>
+
+          <ul className="mt-8 space-y-3">
+            {contactItems.map((item) => {
+              const content = (
+                <>
+                  <span className="icon-chip h-11 w-11" aria-hidden="true">
+                    <item.icon className="h-5 w-5" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-fg">{item.title}</span>
+                    <span className="block break-all text-sm text-muted transition-colors duration-200 group-hover:text-primary sm:text-base">
+                      {item.label}
+                    </span>
+                  </span>
+                </>
+              )
+              return (
+                <li key={item.title}>
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="glass-card glass-card-hover group flex items-center gap-4 !rounded-2xl p-4 hover:-translate-y-0.5"
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <div className="glass-card group flex items-center gap-4 !rounded-2xl p-4">{content}</div>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
         </motion.div>
-        
+
         {/* Contact Form */}
-        <motion.div 
-          className="bg-white dark:bg-dark/50 p-4 sm:p-6 rounded-lg shadow-md"
-          {...slideInRight}
+        <motion.div
+          className="glass-card p-6 sm:p-8"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <motion.form 
-            onSubmit={handleSubmit} 
-            className="space-y-4 sm:space-y-6"
-            variants={fadeIn}
-            initial="initial"
-            animate="animate"
-          >
-            <motion.div variants={fadeInUp}>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label htmlFor="name" className="mb-2 block text-sm font-medium text-fg">
                 Name
               </label>
               <input
                 type="text"
                 id="name"
                 name="name"
+                autoComplete="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base"
+                className="input"
               />
-            </motion.div>
-            
-            <motion.div variants={fadeInUp}>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
+            </div>
+
+            <div>
+              <label htmlFor="email" className="mb-2 block text-sm font-medium text-fg">
                 Email
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base"
+                className="input"
               />
-            </motion.div>
-            
-            <motion.div variants={fadeInUp}>
-              <label htmlFor="message" className="block text-sm font-medium mb-2">
+            </div>
+
+            <div>
+              <label htmlFor="message" className="mb-2 block text-sm font-medium text-fg">
                 Message
               </label>
               <textarea
@@ -252,43 +218,34 @@ export default function Contact() {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                rows={4}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-dark focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base resize-none"
+                rows={5}
+                className="input resize-y"
               />
-            </motion.div>
-            
-            <motion.button
+            </div>
+
+            <button
               type="submit"
               disabled={formState.status === 'loading'}
-              className="w-full btn btn-primary py-3 sm:py-4 text-sm sm:text-base font-medium touch-target"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="btn-primary w-full"
             >
               {formState.status === 'loading' ? 'Sending...' : 'Send Message'}
-            </motion.button>
-            
-            {formState.status === 'success' && (
-              <motion.p 
-                className="text-green-500 text-center text-sm sm:text-base"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                {formState.message || 'Message sent successfully!'}
-              </motion.p>
-            )}
-            
-            {formState.status === 'error' && (
-              <motion.p 
-                className="text-red-500 text-center text-sm sm:text-base"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                {formState.message || 'Failed to send message. Please try again.'}
-              </motion.p>
-            )}
-          </motion.form>
+            </button>
+
+            <div aria-live="polite" className="min-h-6 text-center text-sm sm:text-base">
+              {formState.status === 'success' && (
+                <motion.p className="font-medium text-success" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
+                  {formState.message || 'Message sent successfully!'}
+                </motion.p>
+              )}
+              {formState.status === 'error' && (
+                <motion.p className="font-medium text-error" role="alert" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}>
+                  {formState.message || 'Failed to send message. Please try again.'}
+                </motion.p>
+              )}
+            </div>
+          </form>
         </motion.div>
       </div>
     </div>
   )
-} 
+}
