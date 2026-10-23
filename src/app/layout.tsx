@@ -1,24 +1,28 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FloatingElements from "./components/FloatingElements";
+import PageLoader from "./components/PageLoader";
 import dynamic from "next/dynamic";
 
-// Defer heavy, animation-heavy components to the client and after hydration
-const FloatingElements = dynamic(() => import("./components/FloatingElements"));
+// Defer the chatbot bundle until after hydration
 const Chatbot = dynamic(() => import("./components/Chatbot"));
-const PageLoader = dynamic(() => import("./components/PageLoader"));
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,14 +31,25 @@ export const metadata: Metadata = {
     "Senior Software Engineer specializing in .NET, microservices, and AI-powered backend systems.",
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0a0e17" },
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="transition-colors scroll-smooth" suppressHydrationWarning>
-    <body className={`bg-white dark:bg-gray-900 transition-colors dark:text-white overflow-x-hidden ${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`dark scroll-smooth ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="bg-bg font-sans text-fg antialiased" suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -42,20 +57,22 @@ export default function RootLayout({
               try {
                 var saved = localStorage.getItem('theme');
                 var theme = saved ? saved : 'dark';
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
+                document.documentElement.classList.toggle('dark', theme === 'dark');
               } catch (e) {}
             })();
           `}}
         />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-xl focus:bg-surface focus:px-4 focus:py-2 focus:text-fg focus:shadow-lg"
+        >
+          Skip to content
+        </a>
         <ThemeProvider>
           <PageLoader />
           <FloatingElements />
           <Navbar />
-          <main className="min-h-screen pt-16 sm:pt-20 md:pt-24 relative z-10 overflow-x-hidden">
+          <main id="main-content" className="relative z-10 min-h-screen pt-16">
             {children}
           </main>
           <Footer />

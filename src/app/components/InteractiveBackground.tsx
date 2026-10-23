@@ -123,7 +123,7 @@ export default function InteractiveBackground() {
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: Math.random() * 4 + 2,
-      color: `rgba(${Math.random() * 100 + 50}, ${Math.random() * 100 + 150}, ${Math.random() * 100 + 200}, 0.6)`,
+      color: `rgba(0, 212, 255, ${(Math.random() * 0.4 + 0.3).toFixed(2)})`,
       delay: Math.random() * 3,
     }));
     setParticles(newParticles);
@@ -131,11 +131,11 @@ export default function InteractiveBackground() {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Interactive gradient that follows mouse */}
+      {/* Interactive glow that follows mouse */}
       <motion.div
         className="absolute w-96 h-96 rounded-full blur-3xl opacity-30"
         style={{
-          background: 'radial-gradient(circle, rgba(0, 212, 170, 0.3) 0%, transparent 70%)',
+          background: 'rgba(0, 212, 255, 0.3)',
           left: `${mousePosition.x}%`,
           top: `${mousePosition.y}%`,
         }}
@@ -169,7 +169,7 @@ export default function InteractiveBackground() {
         startY={30}
         endX={80}
         endY={70}
-        color="rgba(0, 212, 170, 0.3)"
+        color="rgba(0, 212, 255, 0.3)"
         delay={1}
       />
       <InteractiveLine
@@ -177,13 +177,13 @@ export default function InteractiveBackground() {
         startY={20}
         endX={30}
         endY={80}
-        color="rgba(0, 255, 163, 0.2)"
+        color="rgba(0, 212, 255, 0.2)"
         delay={2}
       />
 
       {/* Animated geometric shapes */}
       <motion.div
-        className="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-green-400/20 rounded-lg"
+        className="absolute top-1/4 left-1/4 w-32 h-32 border-2 border-primary/20 rounded-lg"
         animate={{
           rotate: [0, 360],
           scale: [1, 1.1, 1],
@@ -197,7 +197,7 @@ export default function InteractiveBackground() {
       />
 
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-24 h-24 border-2 border-teal-400/20 rounded-full"
+        className="absolute bottom-1/4 right-1/4 w-24 h-24 border-2 border-primary/20 rounded-full"
         animate={{
           rotate: [360, 0],
           scale: [1, 1.2, 1],
@@ -212,7 +212,7 @@ export default function InteractiveBackground() {
 
       {/* Floating code symbols */}
       <motion.div
-        className="absolute top-1/3 right-1/3 text-green-400/30 text-2xl font-mono"
+        className="absolute top-1/3 right-1/3 text-primary/30 text-2xl font-mono"
         animate={{
           y: [0, -20, 0],
           rotate: [0, 5, 0],
@@ -227,7 +227,7 @@ export default function InteractiveBackground() {
       </motion.div>
 
       <motion.div
-        className="absolute bottom-1/3 left-1/3 text-teal-400/30 text-xl font-mono"
+        className="absolute bottom-1/3 left-1/3 text-primary/30 text-xl font-mono"
         animate={{
           y: [0, 15, 0],
           rotate: [0, -3, 0],

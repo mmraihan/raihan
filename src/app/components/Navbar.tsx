@@ -1,183 +1,145 @@
 'use client'
 import Link from 'next/link'
-import Image from 'next/image'
-import { assetPath } from '@/utils/assetPath'
+import { usePathname } from 'next/navigation'
+import Logo from './Logo'
 import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '../context/ThemeContext'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+const menuItems = [
+  { href: '/', label: 'Home' },
+  { href: '/resume', label: 'Resume' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/blogs', label: 'Blogs' },
+  { href: '/contact', label: 'Contact' },
+]
+
+function ThemeIcon() {
+  // Icons are toggled with CSS so server and client markup always match
+  return (
+    <>
+      <SunIcon className="hidden h-5 w-5 dark:block" aria-hidden="true" />
+      <MoonIcon className="h-5 w-5 dark:hidden" aria-hidden="true" />
+    </>
+  )
+}
 
 export default function Navbar() {
-  const { theme, toggleTheme } = useTheme();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { toggleTheme } = useTheme()
+  const pathname = usePathname()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const normalized = pathname?.replace(/\/$/, '') || '/'
+  const isActive = (href: string) => (href === '/' ? normalized === '/' : normalized.startsWith(href))
 
-  const menuItems = [
-    { href: '/', label: 'Home' },
-    { href: '/resume', label: 'Resume' },
-    { href: '/projects', label: 'Projects' },
-    { href: '/blogs', label: 'Blogs' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  // Close the mobile menu on navigation and on Escape
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsMobileMenuOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isMobileMenuOpen])
 
   return (
-    <nav className="fixed w-full bg-white/90 dark:bg-dark/90 backdrop-blur-md z-50 border-b border-gray-200/50 dark:border-gray-700/50">
-      <div className="container max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
-          <Link href="/" className="group">
-            <motion.div 
-              className="relative"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Image 
-                src={assetPath("/logo-cursive.svg")} 
-                alt="Raihan Logo" 
-                width={32}
-                height={32}
-                className="h-8 w-auto sm:h-10 transition-all duration-300 group-hover:brightness-110 group-hover:drop-shadow-lg"
-              />
-            </motion.div>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-[var(--nav-bg)] backdrop-blur-[20px]">
+      <nav className="container" aria-label="Main">
+        <div className="flex h-16 items-center justify-between gap-4">
+          <Link href="/" className="flex items-center rounded-lg" aria-label="Mubasshir Raihan - Home">
+            <Logo className="h-9 transition-opacity duration-200 hover:opacity-80" />
           </Link>
-          
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            {menuItems.map((item) => (
-              <Link 
-                key={item.href}
-                href={item.href} 
-                className="text-sm xl:text-base hover:text-primary transition-colors font-medium"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <motion.button
+
+          {/* Desktop / tablet menu */}
+          <div className="hidden items-center gap-1 md:flex">
+            {menuItems.map((item) => {
+              const active = isActive(item.href)
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? 'page' : undefined}
+                  className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 lg:px-4 ${
+                    active ? 'bg-glass text-primary' : 'text-muted hover:text-fg'
+                  }`}
+                >
+                  {item.label}
+                  {active && (
+                    <span className="absolute bottom-0.5 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-primary" />
+                  )}
+                </Link>
+              )
+            })}
+            <button
+              type="button"
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-target"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              aria-label="Toggle color theme"
+              className="ml-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-glass text-muted transition-colors duration-200 hover:border-primary hover:text-primary"
             >
-              {theme === 'dark' ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-            </motion.button>
+              <ThemeIcon />
+            </button>
           </div>
 
-          {/* Tablet Menu (md:flex lg:hidden) */}
-          <div className="hidden md:flex lg:hidden items-center space-x-4">
-            {menuItems.slice(0, 3).map((item) => (
-              <Link 
-                key={item.href}
-                href={item.href} 
-                className="text-sm hover:text-primary transition-colors font-medium"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <motion.button
+          {/* Mobile controls */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-target"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              aria-label="Toggle color theme"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-glass text-muted transition-colors hover:text-primary"
             >
-              {theme === 'dark' ? (
-                <SunIcon className="h-5 w-5" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-            </motion.button>
-            <motion.button
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-target"
-              onClick={toggleMobileMenu}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              <ThemeIcon />
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-glass text-fg transition-colors hover:text-primary"
             >
-              {isMobileMenuOpen ? (
-                <XMarkIcon className="h-5 w-5" />
-              ) : (
-                <Bars3Icon className="h-5 w-5" />
-              )}
-            </motion.button>
+              {isMobileMenuOpen ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+            </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors touch-target"
-            onClick={toggleMobileMenu}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            {isMobileMenuOpen ? (
-              <XMarkIcon className="h-6 w-6" />
-            ) : (
-              <Bars3Icon className="h-6 w-6" />
-            )}
-          </motion.button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
+              id="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden border-t border-gray-200/50 dark:border-gray-700/50"
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden border-t border-border md:hidden"
             >
-              <div className="py-4 space-y-2">
-                {menuItems.map((item, index) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      href={item.href}
-                      className="block py-3 px-4 text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors rounded-lg touch-target"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: menuItems.length * 0.1 }}
-                  className="border-t border-gray-200/50 dark:border-gray-700/50 pt-2 mt-2"
-                >
-                  <button
-                    onClick={() => {
-                      toggleTheme();
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="flex items-center py-3 px-4 text-base font-medium hover:text-primary hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors rounded-lg touch-target w-full"
-                  >
-                    {theme === 'dark' ? (
-                      <>
-                        <SunIcon className="h-5 w-5 mr-3" />
-                        Light Mode
-                      </>
-                    ) : (
-                      <>
-                        <MoonIcon className="h-5 w-5 mr-3" />
-                        Dark Mode
-                      </>
-                    )}
-                  </button>
-                </motion.div>
-              </div>
+              <ul className="space-y-1 py-3">
+                {menuItems.map((item) => {
+                  const active = isActive(item.href)
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        aria-current={active ? 'page' : undefined}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`flex min-h-11 items-center rounded-xl px-4 text-base font-medium transition-colors ${
+                          active ? 'bg-glass text-primary' : 'text-muted hover:bg-glass hover:text-fg'
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-    </nav>
+      </nav>
+    </header>
   )
-} 
+}

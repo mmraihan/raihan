@@ -3,16 +3,15 @@ import Hero from "./components/Hero";
 import InteractiveResume from "./components/InteractiveResume";
 import Newsletter from "./components/Newsletter";
 
-
 export default function Home() {
   return (
-    <main>
+    <>
       <Hero />
-      <section id="resume" className="scroll-mt-16 sm:scroll-mt-20 md:scroll-mt-24">
-        <InteractiveResume />
+      <section id="resume" aria-label="Resume" className="scroll-mt-20">
+        <InteractiveResume headingLevel="h2" />
       </section>
       <Blogs />
       <Newsletter />
-    </main>
+    </>
   );
-} 
+}

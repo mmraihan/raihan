@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { MotionConfig } from "framer-motion";
 
 type Theme = "light" | "dark";
 
@@ -13,39 +14,31 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
-  const [mounted, setMounted] = useState(false);
+  // Dark is the default; the inline script in layout.tsx applies the saved
+  // theme class before paint, so content can render immediately (no flash).
+  const [theme, setThemeState] = useState<Theme>("dark");
 
-  // Update theme
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
-    localStorage.setItem("theme", newTheme);
+    try {
+      localStorage.setItem("theme", newTheme);
+    } catch {}
     document.documentElement.classList.toggle("dark", newTheme === "dark");
-  };
-
-  // Toggle theme
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-    console.log(theme);
-  };
-
-  // Initialize theme (default to dark if no saved preference)
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const initialTheme: Theme = savedTheme ?? "dark";
-    setThemeState(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
-    setMounted(true);
   }, []);
 
-  // Prevent flash of wrong theme
-  if (!mounted) {
-    return null;
-  }
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === "light" ? "dark" : "light");
+  }, [theme, setTheme]);
+
+  // Sync state with the class applied by the pre-hydration script
+  useEffect(() => {
+    setThemeState(document.documentElement.classList.contains("dark") ? "dark" : "light");
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
-      {children}
+      {/* Honour prefers-reduced-motion for every framer-motion animation */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </ThemeContext.Provider>
   );
 }
